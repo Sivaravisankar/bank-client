@@ -1,18 +1,25 @@
+
 import axios from 'axios';
 import { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import './App.css'
+
 export default function Register(){
+    
     let [name,setName]=useState('');
     let [email,setEmail]=useState('');
     let [pass,setPass]=useState('');
+ 
     function handleSubmit(e){
         e.preventDefault()
         console.log(name,email,pass)
+       
         let item=({name:name,email:email,password:pass,amount:1000})
-        axios.post('https://bank-server-obsg.onrender.com/create',item)
+        axios.post('http://localhost:8080/create',item)
     }
+
     return(<>
+
 <h1>REGISTER</h1>
 <form onSubmit={handleSubmit}>
 <div class="mb-3">
@@ -30,5 +37,5 @@ export default function Register(){
   
   <Button type="submit" class="btn btn-primary">CREATE ACCOUNT</Button>
 </form>
-</>)
+        </>)
 }
