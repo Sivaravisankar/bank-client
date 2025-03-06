@@ -1,32 +1,39 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+
 export default function Alldata() {
   let [data, setData] = useState([]);
   let [editId, setEditId] = useState(null);
   let [editUser, setEditUser] = useState({ name: "", email: "", password: "", amount: 0 });
+
   useEffect(() => {
     fetchData();
   }, []);
+
   async function fetchData() {
-    let result = await axios.get("https://bank-server-obsg.onrender.com/data");
+    let result = await axios.get("http://localhost:8080/data");
     setData(result.data);
   }
+
   async function handleDelete(id) {
-    await axios.delete(`https://bank-server-obsg.onrender.com/delete/${id}`);
+    await axios.delete(`http://localhost:8080/delete/${id}`);
     fetchData();
   }
+
   function handleEdit(user) {
     setEditId(user._id);
     setEditUser(user);
   }
+
   async function handleUpdate(e) {
     e.preventDefault();
-    await axios.put(`https://bank-server-obsg.onrender.com/update/${editId}`, editUser);
+    await axios.put(`http://localhost:8080/update/${editId}, editUser`);
     setEditId(null);
     fetchData();
   }
+
   return (
-    <><div>
+    <>
       <h1>ALL DATA</h1>
       <table className="table">
         <thead>
@@ -46,8 +53,8 @@ export default function Alldata() {
               <td>{user.password}</td>
               <td>{user.amount}</td>
               <td>
-                <button onClick={() => handleEdit(user)} style={{  backgroundColor: "blue",color: "white",padding: "10px 20px",border: "none",borderRadius: "5px",width: '100px'}}>Edit</button>
-                <button onClick={() => handleDelete(user._id)}  style={{  backgroundColor: "blue",color: "white",padding: "10px 20px",border: "none",borderRadius: "5px",width: '100px'}}>Delete</button>
+                <button onClick={() => handleEdit(user)}>Edit</button>
+                <button onClick={() => handleDelete(user._id)}>Delete</button>
               </td>
             </tr>
           ))}
@@ -82,9 +89,7 @@ export default function Alldata() {
           />
           <button type="submit">Update</button>
         </form>
-
       )}
-      </div>
     </>
   );
 }
